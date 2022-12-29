@@ -1,0 +1,106 @@
+@use '../utilities/breakpoints' as u;
+
+.menu-modal{
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__bar{
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        z-index: 3;
+        width: 100vw;
+        padding: 2.5rem 0 3rem 0;
+        background-color: var(--semi-dark-navy);
+    }
+
+    &__restart{
+        display: none;
+        //display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    &__winner{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &-announcement{
+            padding-bottom: 1rem;
+        }
+
+        &-heading{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5625rem;
+            margin-bottom: 1.5rem;
+        }
+
+        &-icon{
+            width: 1.75rem;
+
+            @include u.breakpoint(medium){
+                width: 4rem;
+            }
+        }
+
+        &-tittle-x{
+            color: var(--light-blue);
+            @include u.breakpoint('medium'){
+                font-size: 2.5rem;
+            }
+        }
+        &-tittle-o{
+            color: var(--silver);
+            @include u.breakpoint('medium'){
+                font-size: 2.5rem;
+            }
+        }
+        &-tittle-draw{
+            color: var(--light-yellow);
+            @include u.breakpoint('medium'){
+                font-size: 2.5rem;
+            }
+        }
+    }
+
+    &__btn{
+        display: flex;
+        gap: 1rem;
+
+        &--primary,
+        &--secondary{
+            padding: 1rem 1rem 1.25rem 1rem;
+            border-radius: 0.625rem;
+            border: 0px;
+        }
+
+        &--primary{
+            background-color: var(--light-yellow);
+            box-shadow: inset 0px -0.25rem 0px #CC8B13;
+        }
+
+        &--secondary{
+            background-color: var(--silver);
+            box-shadow: inset 0px -0.25rem 0px #6B8997;
+        }
+    }
+
+    &__background{
+        background-color: black;
+        opacity: 0.5;
+        height: 100vh;
+        width: 100vw;
+    }
+
+
+
+}

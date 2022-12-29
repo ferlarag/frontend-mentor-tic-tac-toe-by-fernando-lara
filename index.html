@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="stylesheet" href="/dist/styles.css">
+  <title>Frontend Mentor | Tic Tac Toe</title>
+</head>
+<body>
+  <!-- Pop-up window -->
+  <div class="menu-modal">
+    <div class="menu-modal__bar">
+      <div class="menu-modal__restart">
+        <h2 class="menu-modal__restart-heading">Restart game?</h2>
+        <div class="menu-modal__btn">
+          <button id="cancelRestartBtn" class="menu-modal__btn--secondary"><h4>No, cancel</h4></button>
+          <button id="confirmRestartBtn" class="menu-modal__btn--primary"><h4>Yes, restart</h4></button>
+        </div>
+      </div>
+      <div class="menu-modal__winner">
+        <p class="menu-modal__winner-announcement">You won!</p>
+        <div class="menu-modal__winner-heading">
+          <img class="menu-modal__winner-icon" src="/assets/icon-x.svg" alt="light blue x icon">
+          <h2 class="menu-modal__winner-tittle-x">Takes the round</h2>
+        </div>
+        <div class="menu-modal__btn">
+          <button id="quitBtn" class="menu-modal__btn--secondary"><h4> Quit</h4></button>
+          <button id="nextRoundBtn" class="menu-modal__btn--primary"><h4>Next round</h4></button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-modal__background"></div>
+  </div>
+  <!-- New game menu start -->
+  <div class="start">
+    <div class="start__logo">
+      <img class="start__logo--icon" src="/assets/icon-x.svg" alt="icon x">
+      <img class="start__logo--icon" src="/assets/icon-o.svg" alt="icon o">
+    </div>
+    <div class="start__pick pick">
+      <h4 class="pick__heading">Pick player 1's mark</h4>
+      <button id="pickMark" class="pick__toggle" id="pickPlayerBtn">
+        <div class="pick__btn-container--back">
+          <div class="pick__btn-container--front">
+            <div class="pick__toggle--btn">
+              <img class="pick__toggle--icon" src="/assets/icon-o-dark.svg" alt="select O">
+            </div>
+          </div>
+          <div class="pick__toggle--btn">
+            <img class="pick__toggle--icon" src="/assets/icon-x-grey.svg" alt="select X">
+          </div>
+          <div class="pick__toggle--btn">
+            <img class="pick__toggle--icon" src="/assets/icon-o-grey.svg" alt="select O">
+          </div>
+        </div>
+      </button>
+      <p class="pick__paragraph">
+        Remember: X goes first
+      </p>
+    </div>
+    <div class="start__btns">
+        <button id="newGameSolo" class="start__btns--primary"><h4>New Game (vs CPU)</h4></button>
+        <button id="newGameMulti" class="start__btns--secondary"><h4>New Game (vs player)</h4></button>
+    </div>
+  </div>
+  <!-- New game menu end -->
+
+
+  <!-- Game board start -->
+  <div class="game">
+    <div class="game__menu">
+      <div class="game__menu--logo">
+        <img class="game__menu--icon" src="/assets/icon-x.svg" alt="icon x">
+        <img class="game__menu--icon" src="/assets/icon-o.svg" alt="icon o">
+      </div>
+      <div class="game__menu--turn">
+        <!--chenge x/o icon depending the turn -->
+        <img src="/assets/icon-o-grey.svg" alt="icon 0 grey">
+        <p>turn</p>
+      </div>
+      <div class="game__menu--restart">
+        <button id="restartBtn" class="restart__btn">
+          <img class="restart__icon" src="/assets/icon-restart.svg" alt="restart game">
+        </button>
+      </div>
+    </div>
+    <div class="game__board">
+      <div class="game__board--tiles">
+        <div class="tile"><img class="tile__icon" src="/assets/icon-o.svg" alt=""></div>
+        <div class="tile"><img class="tile__icon" src="/assets/icon-x.svg" alt=""></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"><img class="tile__icon" src="/assets/icon-x.svg" alt=""></div>
+        <div class="tile"></div>
+        <div class="tile"><img class="tile__icon" src="/assets/icon-o-outline.svg" alt=""></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+      </div>
+      <div class="game__board--score">
+        <div class="score__player">
+          <p>X (You) <!-- Your score --></p>
+          <h3 class="score__player--number">4</h3>
+        </div>
+        <div class="score__ties">
+          <p>Ties <!-- Ties score --></p>
+          <h3 class="score__ties--number">12</h3>
+        </div>
+        <div class="score__cpu">
+          <p>X (CPU) <!-- CPU score --></p>
+          <h3 class="score__cpu--number">7</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Game board end -->
+
+  <div class="hide">
+    Oh no, you lost
+    You won!
+    Player <!-- 1/2 --> wins!
+  
+    <!-- x/o icon --> takes the round
+    Round tied
+    Restart game?
+  
+    Quit
+    Next round
+    No, cancel
+    Yes, restart
+  
+  </div>
+  <script src="/app/js/app.js"></script>
+</body>
+</html>

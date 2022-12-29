@@ -1,0 +1,154 @@
+@use '../utilities/breakpoints' as u;
+
+.game{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 28.75rem;
+    flex: 0.875;
+
+    &__menu{
+        display: flex;
+        margin-top: 1.5rem;
+        //padding-bottom: 1.1875rem;
+        //margin: 1.5rem 0 1.1875rem 0;
+        gap: 1.25rem;
+
+        @include u.breakpoint(medium){
+            margin-bottom: 1.1875rem;
+            margin-top: 0;
+        }
+        
+        &--logo{
+            flex: 1;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        &--icon{
+            width: 2rem;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        &--turn{
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.25rem;
+            background-color: var(--semi-dark-navy);
+            box-shadow: inset 0px -0.25rem 0px #10212A;
+            border-radius: 0.315rem;
+            margin: 0 auto;
+        }
+
+        &--turn p{
+            font-size: 1rem;
+
+            @include u.breakpoint(medium){
+                font-size: 1.25rem;
+            }
+        }
+
+        &--restart{
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        &--turn img{
+            width: 1rem;
+
+            @include u.breakpoint(medium){
+                width: 1.25rem;
+            }
+        }
+    }
+
+    &__board{
+        display: flex;
+        flex-direction: column;
+        margin: auto 0;
+
+        @include u.breakpoint(medium){
+            margin: 0;
+        }
+
+        &--score{
+            display: flex;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        &--tiles{
+            display: grid;
+            gap: 1.25rem;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);;
+        }
+    }
+}
+
+.tile{
+    border-radius: 0.625rem;
+    box-shadow: inset 0px -0.5rem 0px #10212A;
+    background-color: var(--semi-dark-navy);
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__icon{
+        width: 50%;
+        padding-bottom: 0.5rem;
+    }
+}
+
+.score{
+    &__player,
+    &__ties,
+    &__cpu{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-radius: 0.625rem;
+        color: var(--dark-navy);
+        flex: 1;
+    }
+
+    &__player{
+        background-color: var(--light-blue);
+    }
+
+    &__ties{
+        background-color: var(--silver);
+    }
+
+    &__cpu{
+        background-color: var(--light-yellow);
+    }
+}
+
+.restart{
+    &__btn{
+        border: 0px none black;
+        background-color: var(--silver);
+        box-shadow: inset 0px -0.25rem 0px #6B8997;
+        border-radius: 0.3125rem;
+        padding: 0.78125rem;
+    }
+
+    &__icon{
+        width: 1rem;
+
+        @include u.breakpoint(medium){
+            width: 1.25rem;
+        }
+    }
+}

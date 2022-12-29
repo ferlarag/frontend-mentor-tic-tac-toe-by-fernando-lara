@@ -1,0 +1,31 @@
+@use './variables' as vars;
+
+html{
+    box-sizing: border-box;
+    font-size: 100%;
+}
+
+*, *::before, *::after{
+    box-sizing: inherit;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    font-family: vars.$main-font;
+    background-color: var(--dark-navy);
+    color: var(--silver);
+    height: 100vh;
+    width: 100vw;
+    text-transform: uppercase;
+}
+
+.hide{
+    display: none;
+}
+
+button{
+    cursor: pointer;
+}
