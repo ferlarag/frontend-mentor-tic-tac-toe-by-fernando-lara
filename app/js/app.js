@@ -21,3 +21,17 @@ const playerScorePoints = document.querySelector('.score__player--number')
 const scoreTies = document.querySelector('.score__ties--number')
 const cpuScoreParagraph = document.querySelector('.score__cpu-p')
 const cpuScorePoints =  document.querySelector('.score__cpu--number')
+
+newGameSolo.addEventListener('click', ()=>{
+    document.querySelector('.start').style = 'display: none;'
+    document.querySelector('.game').style = 'display: flex;'
+})
+
+restartBtn.addEventListener('click', () => {
+    document.querySelector('.menu-modal').style = 'display: flex;'
+})
+
+quitBtn.addEventListener('click', () => {
+    document.querySelector('.menu-modal').style = 'display: none '
+})
+
