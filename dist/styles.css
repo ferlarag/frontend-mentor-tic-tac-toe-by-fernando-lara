@@ -96,7 +96,7 @@ a, a:visited, a:active {
 }
 
 .start {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
@@ -188,7 +188,7 @@ a, a:visited, a:active {
 }
 
 .game {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   max-width: 28.75rem;
@@ -369,27 +369,27 @@ a, a:visited, a:active {
     width: 4rem;
   }
 }
-.menu-modal__winner-tittle-x {
+.menu-modal__winner-title {
   color: var(--light-blue);
 }
 @media (min-width: 700px) {
-  .menu-modal__winner-tittle-x {
+  .menu-modal__winner-title {
     font-size: 2.5rem;
   }
 }
-.menu-modal__winner-tittle-o {
+.menu-modal__winner-title-o {
   color: var(--silver);
 }
 @media (min-width: 700px) {
-  .menu-modal__winner-tittle-o {
+  .menu-modal__winner-title-o {
     font-size: 2.5rem;
   }
 }
-.menu-modal__winner-tittle-draw {
+.menu-modal__winner-title-draw {
   color: var(--light-yellow);
 }
 @media (min-width: 700px) {
-  .menu-modal__winner-tittle-draw {
+  .menu-modal__winner-title-draw {
     font-size: 2.5rem;
   }
 }

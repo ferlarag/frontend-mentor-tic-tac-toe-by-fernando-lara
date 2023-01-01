@@ -2,7 +2,6 @@ export default class Game {
     constructor(){
         this.multiplayer = false
         this.RoundTurn = 'x'
-        this.round = 1
         this.draws = 0
         this.p1 = {
             score: 0,
@@ -36,50 +35,37 @@ export default class Game {
             return 'Space already occupied'
         }
         this.board[row][col] = player
-        this.checkWinner()
         this.changeRoundTurnMarks()
-
-        //this will run automatically
-        // if(this.checkWinner() !== ''){
-        //     this.update()
-        // }
-    }
-
-    update(){
-        this.updateScore()
-        this.changePlayersMarks()
-        this.resetBoard()
     }
 
     checkWinner(){
         let result = ''
-        let spaces = this.board.flat()
 
         //check for columns
         for(let i=0;i < 3; i++){
             if(this.board[i][0] !== '' && this.board[i][0] === this.board[i][1] && this.board[i][1] === this.board[i][2]){
-                result = this.board[i][0]
+                return result = this.board[i][0]
             }
         }
 
         //check for rows
         for(let i=0; i < 3; i++){
             if(this.board[0][i] !== '' && this.board[0][i] === this.board[1][i] && this.board[1][i] === this.board[2][i]){
-                result = this.board[0][i]
+                return result = this.board[0][i]
             }
         }
 
         //check diagonals
         if(this.board[0][0] !== '' && this.board[0][0] === this.board[1][1] && this.board[1][1] === this.board[2][2]){
-            result = this.board[0][0]
+            return result = this.board[0][0]
         }
         if(this.board[0][2] !== '' && this.board[0][2] === this.board[1][1] && this.board[1][1] === this.board[2][0]){
-            result = this.board[0][2]
+            return result = this.board[0][2]
         }
 
         //Check for draws
-        if (!spaces.includes('')){
-            result = 'draw'
+        if (!this.board.flat().includes('')){
+            return result = 'draw'
         }
 
         return result
@@ -114,7 +100,28 @@ export default class Game {
     }
 
     resetBoard(){
+        this.RoundTurn = 'x'
         return this.board = [
+            ['','',''],
+            ['','',''],
+            ['','','']
+        ]
+    }
+
+    clean(){
+        this.multiplayer = false
+        this.RoundTurn = 'x'
+        this.draws = 0
+        this.p1 = {
+            score: 0,
+            mark: 'x'
+        }
+        this.p2 = {
+            score: 0,
+            mark: 'o'
+        }
+        this.board = 
+        [
             ['','',''],
             ['','',''],
             ['','','']

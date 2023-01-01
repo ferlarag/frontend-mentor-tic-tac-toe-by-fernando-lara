@@ -52,19 +52,20 @@
             }
         }
 
-        &-tittle-x{
+        &-title{
+            //color: var(--silver);
             color: var(--light-blue);
             @include u.breakpoint('medium'){
                 font-size: 2.5rem;
             }
         }
-        &-tittle-o{
+        &-title-o{
             color: var(--silver);
             @include u.breakpoint('medium'){
                 font-size: 2.5rem;
             }
         }
-        &-tittle-draw{
+        &-title-draw{
             color: var(--light-yellow);
             @include u.breakpoint('medium'){
                 font-size: 2.5rem;
