@@ -1,3 +1,7 @@
+import Game from "./game.js"
+
+let game = new Game
+
 //Restart menu elements
 const cancelRestartBtn = document.getElementById('cancelRestartBtn')
 const confirmRestartBtn = document.getElementById('confirmRestartBtn')
@@ -15,12 +19,32 @@ const newGameMulti = document.getElementById('newGameMulti')
 const restartBtn = document.getElementById('restartBtn')
 
 //Board elements
+let tiles = document.getElementsByClassName('tile')
 const [a,b,c,d,e,f,g,h,i] = document.getElementsByClassName('tile')
 const playerScoreParagraph = document.querySelector('.score__player-p')
 const playerScorePoints = document.querySelector('.score__player--number')
 const scoreTies = document.querySelector('.score__ties--number')
 const cpuScoreParagraph = document.querySelector('.score__cpu-p')
 const cpuScorePoints =  document.querySelector('.score__cpu--number')
+
+let grid = [
+    [a,b,c],
+    [d,e,f],
+    [g,h,i]
+]
+
+grid.flat().forEach(element => {
+    element.addEventListener('click',() => {
+        let row = grid.findIndex(row => row.includes(element));
+        let col = grid[row].indexOf(element);
+        if(element.innerHTML === ''){
+            grid[row][col].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.RoundTurn}.svg" alt="icon ${game.RoundTurn}">`
+            console.log(game.board)
+        }
+        game.makeMove(row,col,game.RoundTurn)
+    })
+})
+
 
 newGameSolo.addEventListener('click', ()=>{
     document.querySelector('.start').style = 'display: none;'
@@ -34,4 +58,3 @@ restartBtn.addEventListener('click', () => {
 quitBtn.addEventListener('click', () => {
     document.querySelector('.menu-modal').style = 'display: none '
 })
-

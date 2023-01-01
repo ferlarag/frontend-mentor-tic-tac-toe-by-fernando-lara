@@ -1,7 +1,7 @@
 @use '../utilities/breakpoints' as u;
 
 .game{
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     max-width: 28.75rem;

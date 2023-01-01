@@ -96,7 +96,7 @@ a, a:visited, a:active {
 }
 
 .start {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
@@ -188,7 +188,7 @@ a, a:visited, a:active {
 }
 
 .game {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 28.75rem;
