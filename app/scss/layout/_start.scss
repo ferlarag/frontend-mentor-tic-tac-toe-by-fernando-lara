@@ -41,6 +41,10 @@
             background-color: var(--light-yellow);
         }
 
+        &--primary:hover{
+            background-color: var(--light-yellow-hover);
+        }
+
         &--secondary{
             border: 0 none none;
             padding: 0.875rem 0 1.375rem 0;
@@ -49,6 +53,10 @@
             border-style: none;
             box-shadow: inset 0 -0.5rem 0 #118C87;
             background-color: var(--light-blue);
+        }
+
+        &--secondary:hover{
+            background-color: var(--light-blue-hover);
         }
     }
 }
@@ -86,10 +94,15 @@
             position: absolute;
             display: flex;
             flex: 1;
-            left: 50%;
+            left: 0%;
             width: 50%;
             border-radius: 0.625rem;
             background-color: var(--silver);
+            transition: left 0.3s;
+        }
+
+        &--front-clicked{
+            left: 50%;
         }
 
         &--back{

@@ -134,6 +134,9 @@ a, a:visited, a:active {
   box-shadow: inset 0 -0.5rem 0 #CC8B13;
   background-color: var(--light-yellow);
 }
+.start__btns--primary:hover {
+  background-color: var(--light-yellow-hover);
+}
 .start__btns--secondary {
   border: 0 none none;
   padding: 0.875rem 0 1.375rem 0;
@@ -142,6 +145,9 @@ a, a:visited, a:active {
   border-style: none;
   box-shadow: inset 0 -0.5rem 0 #118C87;
   background-color: var(--light-blue);
+}
+.start__btns--secondary:hover {
+  background-color: var(--light-blue-hover);
 }
 
 .pick__heading {
@@ -171,10 +177,14 @@ a, a:visited, a:active {
   position: absolute;
   display: flex;
   flex: 1;
-  left: 50%;
+  left: 0%;
   width: 50%;
   border-radius: 0.625rem;
   background-color: var(--silver);
+  transition: left 0.3s;
+}
+.pick__btn-container--front-clicked {
+  left: 50%;
 }
 .pick__btn-container--back {
   position: relative;
@@ -313,6 +323,9 @@ a, a:visited, a:active {
   border-radius: 0.3125rem;
   padding: 0.78125rem;
 }
+.restart__btn:hover {
+  background-color: var(--silver-hover);
+}
 .restart__icon {
   width: 1rem;
 }
@@ -406,9 +419,15 @@ a, a:visited, a:active {
   background-color: var(--light-yellow);
   box-shadow: inset 0px -0.25rem 0px #CC8B13;
 }
+.menu-modal__btn--primary:hover {
+  background-color: var(--light-yellow-hover);
+}
 .menu-modal__btn--secondary {
   background-color: var(--silver);
   box-shadow: inset 0px -0.25rem 0px #6B8997;
+}
+.menu-modal__btn--secondary:hover {
+  background-color: var(--silver-hover);
 }
 .menu-modal__background {
   background-color: black;

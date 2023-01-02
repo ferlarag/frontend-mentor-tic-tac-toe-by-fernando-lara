@@ -144,6 +144,10 @@
         padding: 0.78125rem;
     }
 
+    &__btn:hover{
+        background-color: var(--silver-hover);
+    }
+
     &__icon{
         width: 1rem;
 

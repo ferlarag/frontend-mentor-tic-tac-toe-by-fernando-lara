@@ -19,7 +19,6 @@
 
     &__restart{
         display: none;
-        //display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -89,9 +88,17 @@
             box-shadow: inset 0px -0.25rem 0px #CC8B13;
         }
 
+        &--primary:hover{
+            background-color: var(--light-yellow-hover);
+        }
+
         &--secondary{
             background-color: var(--silver);
             box-shadow: inset 0px -0.25rem 0px #6B8997;
+        }
+
+        &--secondary:hover{
+            background-color: var(--silver-hover);
         }
     }
 
