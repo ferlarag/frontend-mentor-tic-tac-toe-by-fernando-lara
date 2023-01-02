@@ -20,17 +20,15 @@ const restartBtn = document.getElementById('restartBtn')
 
 //Board elements
 const [a,b,c,d,e,f,g,h,i] = document.getElementsByClassName('tile')
-const playerScoreParagraph = document.querySelector('.score__player-p')
+const p1Score = document.querySelector('.score__player')
+const p2Score = document.querySelector('.score__cpu')
+const p1ScoreParagraph = document.querySelector('.score__player-p')
 const playerScorePoints = document.querySelector('.score__player--number')
 const scoreTies = document.querySelector('.score__ties--number')
-const cpuScoreParagraph = document.querySelector('.score__cpu-p')
+const p2ScoreParagraph = document.querySelector('.score__cpu-p')
 const cpuScorePoints =  document.querySelector('.score__cpu--number')
 
 let game = new Game
-
-playerScorePoints.innerText = game.p1.score
-cpuScorePoints.innerText = game.p2.score
-scoreTies.innerText = game.draws
 
 let grid = [
     [a,b,c],
@@ -39,19 +37,42 @@ let grid = [
 ]
 
 newGameSolo.addEventListener('click', ()=>{
+    //change to the GAME window
     document.querySelector('.start').style = 'display: none;'
     document.querySelector('.game').style = 'display: flex;'
+
+    //make the turn mark start with x
+    document.querySelector('.game__menu--turn-icon').src = '/assets/icon-x-grey.svg'
+    
+    //Get a new clean game
     game.clean()
+    grid.flat().forEach(element => {
+        element.innerHTML = ''
+    })
+    playerScorePoints.innerText = game.p1.score
+    cpuScorePoints.innerText = game.p2.score
+    scoreTies.innerText = game.draws
+
+    if(game.p1.mark === 'x'){
+        p1Score.style = 'background-color: var(--light-blue);'
+        p2Score.style = 'background-color: var(--light-yellow);'
+    } else if(game.p1.mark === 'o'){
+        p1Score.style = 'background-color: var(--light-yellow);'
+        p2Score.style = 'background-color: var(--light-blue);'
+    }
 })
 
 //make the game object interact with the HTML board
 grid.flat().forEach(element => {
     element.addEventListener('click',() => {
-        let row = grid.findIndex(row => row.includes(element));
-        let col = grid[row].indexOf(element);
+
+        let row = grid.findIndex(row => row.includes(element))
+        let col = grid[row].indexOf(element)
+
         if(element.innerHTML === ''){
             grid[row][col].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.RoundTurn}.svg" alt="icon ${game.RoundTurn}">`
         }
+
         game.makeMove(row,col,game.RoundTurn)
         game.checkWinner()
 
@@ -61,13 +82,14 @@ grid.flat().forEach(element => {
             document.querySelector('.menu-modal').style = 'display: flex;'
             document.querySelector('.menu-modal__winner').style = 'display: flex;'
             document.querySelector('.menu-modal__restart').style = 'display: none;'
-            game.changePlayersMarks()
 
-            //update the score
             game.updateScore()
+
             playerScorePoints.innerText = game.p1.score
             cpuScorePoints.innerText = game.p2.score
             scoreTies.innerText = game.draws
+
+            game.changePlayersMarks()
 
             //change the winner announcement styling
             if(game.checkWinner() === 'x'){
@@ -83,7 +105,9 @@ grid.flat().forEach(element => {
                 winnerP.style = 'color: var(--silver);'
                 winnerP.innerText = 'Round tied'
             }
-        } 
+        }
+
+        document.querySelector('.game__menu--turn-icon').src =`/assets/icon-${game.RoundTurn}-grey.svg`
     })
 })
 
@@ -91,9 +115,19 @@ grid.flat().forEach(element => {
 nextRoundBtn.addEventListener('click',() => {
     grid.flat().forEach(element => {
         element.innerHTML = ''
-    });
+    })
     document.querySelector('.menu-modal').style = 'display: none;'
+    document.querySelector('.game__menu--turn-icon').src = '/assets/icon-x-grey.svg'
+
     game.resetBoard()
+
+    if(game.p1.mark === 'x'){
+        p1Score.style = 'background-color: var(--light-blue);'
+        p2Score.style = 'background-color: var(--light-yellow);'
+    } else if(game.p1.mark === 'o'){
+        p1Score.style = 'background-color: var(--light-yellow);'
+        p2Score.style = 'background-color: var(--light-blue);'
+    }
 })
 
 
@@ -116,6 +150,7 @@ restartBtn.addEventListener('click', () => {
 
 confirmRestartBtn.addEventListener('click', () => {
     document.querySelector('.menu-modal').style = 'display: none;'
+    document.querySelector('.game__menu--turn-icon').src = '/assets/icon-x-grey.svg'
     
     grid.flat().forEach(element => {
         element.innerHTML = ''
