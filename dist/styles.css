@@ -292,6 +292,17 @@ a, a:visited, a:active {
   align-items: center;
 }
 .tile__icon {
+  display: flex;
+  width: 50%;
+  padding-bottom: 0.5rem;
+}
+.tile__icon--hover-hidden {
+  display: none;
+  width: 50%;
+  padding-bottom: 0.5rem;
+}
+.tile__icon--hover-block {
+  display: block;
   width: 50%;
   padding-bottom: 0.5rem;
 }

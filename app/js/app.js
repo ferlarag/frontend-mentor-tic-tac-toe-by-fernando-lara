@@ -36,6 +36,8 @@ let grid = [
     [g,h,i]
 ]
 
+
+//choose the P1 mark button
 pickMarkBtn.addEventListener('click', () => {
     pickContainer.classList.toggle('pick__btn-container--front-clicked')
     game.changePlayersMarks()
@@ -46,6 +48,7 @@ pickMarkBtn.addEventListener('click', () => {
     }
 })
 
+//Multiplayer Mode
 newGameMulti.addEventListener('click', ()=>{
     //change to the GAME window
     document.querySelector('.start').style = 'display: none;'
@@ -63,14 +66,16 @@ newGameMulti.addEventListener('click', ()=>{
 
     //Make sure the board and score are visually reseted
     grid.flat().forEach(element => {
-        element.innerHTML = ''
+        //element.innerHTML = ''
+        element.innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-x-outline.svg" alt="Mark icon">`
     })
 
-    p1ScoreParagraph.innerText = `${game.p1.mark} (you)`
+    p1ScoreParagraph.innerText = `${game.p1.mark} (P1)`
     playerScorePoints.innerText = game.p1.score
-    p2ScoreParagraph.innerText = `${game.p2.mark} (CPU)`
+    p2ScoreParagraph.innerText = `${game.p2.mark} (P2)`
     cpuScorePoints.innerText = game.p2.score
     scoreTies.innerText = game.draws
+
 
     //change the marks 
     if(game.p1.mark === 'x'){
@@ -84,15 +89,36 @@ newGameMulti.addEventListener('click', ()=>{
 
 //make the game object interact with the HTML board
 grid.flat().forEach(element => {
-    element.addEventListener('click',() => {
 
+    //Make the mark outline appear when mouse hovers over the cell
+    element.addEventListener('mouseenter', () => {
         let row = grid.findIndex(row => row.includes(element))
         let col = grid[row].indexOf(element)
 
-        if(element.innerHTML === ''){
+        if(!element.querySelector('.tile__icon')){
+            grid[row][col].innerHTML = `<img class="tile__icon--hover-block" src="/assets/icon-${game.RoundTurn}-outline.svg" alt="Mark icon">`
+        }
+    })
+
+    element.addEventListener('mouseleave', () => {
+        let row = grid.findIndex(row => row.includes(element))
+        let col = grid[row].indexOf(element)
+
+        if(!element.querySelector('.tile__icon')){
+            grid[row][col].innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-${game.RoundTurn}-outline.svg" alt="Mark icon">`
+        }
+    })
+
+    //Place the mark when clicked and
+    //check for win after every move
+    element.addEventListener('click',() => {
+        let row = grid.findIndex(row => row.includes(element))
+        let col = grid[row].indexOf(element)
+
+        if(element.querySelector('.tile__icon--hover-block')){
             grid[row][col].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.RoundTurn}.svg" alt="icon ${game.RoundTurn}">`
         }
-
+        
         game.makeMove(row,col,game.RoundTurn)
         game.checkWinner()
 
@@ -105,14 +131,14 @@ grid.flat().forEach(element => {
 
             game.updateScore()
 
-            p1ScoreParagraph.innerText = `${game.p1.mark} (you)`
+            p1ScoreParagraph.innerText = `${game.p1.mark} (P1)`
             playerScorePoints.innerText = game.p1.score
-            p2ScoreParagraph.innerText = `${game.p2.mark} (CPU)`
+            p2ScoreParagraph.innerText = `${game.p2.mark} (P2)`
             cpuScorePoints.innerText = game.p2.score
             scoreTies.innerText = game.draws
 
             //------Make the grid the same color as the winner here-----
-
+        
             game.changePlayersMarks()
 
             //change the winner announcement styling
@@ -137,10 +163,12 @@ grid.flat().forEach(element => {
     })
 })
 
+
 //Winner Announcement
+//next round button
 nextRoundBtn.addEventListener('click',() => {
     grid.flat().forEach(element => {
-        element.innerHTML = ''
+        element.innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-x-outline.svg" alt="Mark icon">`
     })
 
     document.querySelector('.menu-modal').style = 'display: none;'
@@ -148,8 +176,8 @@ nextRoundBtn.addEventListener('click',() => {
     //reset the turn icon
     document.querySelector('.game__menu--turn-icon').src = '/assets/icon-x-grey.svg'
 
-    p1ScoreParagraph.innerText = `${game.p1.mark} (you)`
-    p2ScoreParagraph.innerText = `${game.p2.mark} (CPU)`
+    p1ScoreParagraph.innerText = `${game.p1.mark} (P1)`
+    p2ScoreParagraph.innerText = `${game.p2.mark} (P2)`
 
     if(game.p1.mark === 'x'){
         p1Score.style = 'background-color: var(--light-blue);'
@@ -162,7 +190,7 @@ nextRoundBtn.addEventListener('click',() => {
     game.resetBoard()
 })
 
-
+//quit button
 quitBtn.addEventListener('click', () => {
     document.querySelector('.menu-modal').style = 'display: none '
     document.querySelector('.game').style = 'display: none;'
@@ -179,13 +207,14 @@ quitBtn.addEventListener('click', () => {
 
 
 //Restart game
+//restart button
 restartBtn.addEventListener('click', () => {
     document.querySelector('.menu-modal').style = 'display: flex;'
     document.querySelector('.menu-modal__winner').style = 'display: none;'
     document.querySelector('.menu-modal__restart').style = 'display: flex;'
 })
 
-
+//confirm restart (modal button)
 confirmRestartBtn.addEventListener('click', () => {
     document.querySelector('.menu-modal').style = 'display: none;'
     document.querySelector('.game__menu--turn-icon').src = '/assets/icon-x-grey.svg'
@@ -197,7 +226,7 @@ confirmRestartBtn.addEventListener('click', () => {
     game.resetBoard()
 })
 
+//cancel restart (modal button)
 cancelRestartBtn.addEventListener('click', () => {
-    //hide the modal and resume the game
     document.querySelector('.menu-modal').style = 'display: none;'
 })
