@@ -71,6 +71,42 @@ export default class Game {
         return result
     }
 
+    checkWinnerLine(){
+        let result = {}
+
+        //return the row
+        for(let i=0;i < 3; i++){
+            if(this.board[i][0] !== '' && this.board[i][0] === this.board[i][1] && this.board[i][1] === this.board[i][2]){
+                result.direction = 'row'
+                result.index = i
+                return result
+            }
+        }
+
+        //return the column
+        for(let i=0; i < 3; i++){
+            if(this.board[0][i] !== '' && this.board[0][i] === this.board[1][i] && this.board[1][i] === this.board[2][i]){
+                result.direction = 'col'
+                result.index = i
+                return result
+            }
+        }
+
+        //return diagonal 1
+        if(this.board[0][0] !== '' && this.board[0][0] === this.board[1][1] && this.board[1][1] === this.board[2][2]){
+            result.direction = 'd'
+            result.index = 0
+            return result
+        }
+
+        //return diagonal 2
+        if(this.board[0][2] !== '' && this.board[0][2] === this.board[1][1] && this.board[1][1] === this.board[2][0]){
+            result.direction = 'd'
+            result.index = 2
+            return result
+        }
+    }
+
     updateScore(){
         if(this.p1.mark === 'x' && this.checkWinner() === 'x'){
             return this.p1.score += 1
@@ -128,5 +164,6 @@ export default class Game {
         ]
     }
 }
+
 
 //module.exports = Game

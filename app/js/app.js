@@ -36,7 +36,6 @@ let grid = [
     [g,h,i]
 ]
 
-
 //choose the P1 mark button
 pickMarkBtn.addEventListener('click', () => {
     pickContainer.classList.toggle('pick__btn-container--front-clicked')
@@ -66,7 +65,7 @@ newGameMulti.addEventListener('click', ()=>{
 
     //Make sure the board and score are visually reseted
     grid.flat().forEach(element => {
-        //element.innerHTML = ''
+        element.style = 'background-color: var(--semi-dark-navy);'
         element.innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-x-outline.svg" alt="Mark icon">`
     })
 
@@ -129,8 +128,8 @@ grid.flat().forEach(element => {
             document.querySelector('.menu-modal__winner').style = 'display: flex;'
             document.querySelector('.menu-modal__restart').style = 'display: none;'
 
+            //update the game object score and the html score
             game.updateScore()
-
             p1ScoreParagraph.innerText = `${game.p1.mark} (P1)`
             playerScorePoints.innerText = game.p1.score
             p2ScoreParagraph.innerText = `${game.p2.mark} (P2)`
@@ -138,7 +137,64 @@ grid.flat().forEach(element => {
             scoreTies.innerText = game.draws
 
             //------Make the grid the same color as the winner here-----
-        
+            console.log(game.checkWinnerLine())
+            if (game.checkWinnerLine().direction === 'row'){
+                for(let i = 0; i < 3; i++){
+                    let element = grid[game.checkWinnerLine().index][i]
+                    if(game.checkWinner() === 'x'){
+                        element.style = 'background-color: var(--light-blue);'
+                        element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    } else {
+                        element.style = 'background-color: var(--light-yellow);'
+                        element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    }
+                }
+            } else if(game.checkWinnerLine().direction === 'col'){
+                for(let i = 0; i < 3; i++){
+                    let element = grid[i][game.checkWinnerLine().index]
+                    if(game.checkWinner() === 'x'){
+                        element.style = 'background-color: var(--light-blue);'
+                        element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    } else {
+                        element.style = 'background-color: var(--light-yellow);'
+                        element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    }
+                }
+            } else if(game.checkWinnerLine().direction === 'd'){
+                if(game.checkWinnerLine().index === 0){
+                    for(let i = 0; i < 3; i++){
+                        let element = grid[i][i]
+                        if(game.checkWinner() === 'x'){
+                            element.style = 'background-color: var(--light-blue);'
+                            element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                        } else {
+                            element.style = 'background-color: var(--light-yellow);'
+                            element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                        }
+                    }
+                } else {
+                    if(game.checkWinner() === 'x'){
+                        grid[0][2].style = 'background-color: var(--light-blue);'
+                        grid[0][2].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    
+                        grid[1][1].style = 'background-color: var(--light-blue);'
+                        grid[1][1].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    
+                        grid[2][0].style = 'background-color: var(--light-blue);'
+                        grid[2][0].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    } else {
+                        grid[0][2].style = 'background-color: var(--light-yellow);'
+                        grid[0][2].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                        
+                        grid[1][1].style = 'background-color: var(--light-yellow);'
+                        grid[1][1].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                        
+                        grid[2][0].style = 'background-color: var(--light-yellow);'
+                        grid[2][0].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    }
+                }
+            }
+
             game.changePlayersMarks()
 
             //change the winner announcement styling
@@ -168,6 +224,7 @@ grid.flat().forEach(element => {
 //next round button
 nextRoundBtn.addEventListener('click',() => {
     grid.flat().forEach(element => {
+        element.style = 'background-color: var(--semi-dark-navy);'
         element.innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-x-outline.svg" alt="Mark icon">`
     })
 
@@ -221,6 +278,7 @@ confirmRestartBtn.addEventListener('click', () => {
     
     //Make sure the game round starts from zero
     grid.flat().forEach(element => {
+        element.style = 'background-color: var(--semi-dark-navy);'
         element.innerHTML = ''
     })
     game.resetBoard()
