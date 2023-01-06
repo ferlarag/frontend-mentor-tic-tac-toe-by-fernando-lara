@@ -1,5 +1,9 @@
 export default class Game {
     constructor(){
+        this.winLine ={
+            direction: '',
+            index: -1
+        }
         this.multiplayer = false
         this.RoundTurn = 'x'
         this.draws = 0
@@ -72,38 +76,41 @@ export default class Game {
     }
 
     checkWinnerLine(){
-        let result = {}
+        this.winLine = {
+            direction: '',
+            index: -1
+        }
 
         //return the row
         for(let i=0;i < 3; i++){
             if(this.board[i][0] !== '' && this.board[i][0] === this.board[i][1] && this.board[i][1] === this.board[i][2]){
-                result.direction = 'row'
-                result.index = i
-                return result
+                this.winLine.direction = 'row'
+                this.winLine.index = i
+                return
             }
         }
 
         //return the column
         for(let i=0; i < 3; i++){
             if(this.board[0][i] !== '' && this.board[0][i] === this.board[1][i] && this.board[1][i] === this.board[2][i]){
-                result.direction = 'col'
-                result.index = i
-                return result
+                this.winLine.direction = 'col'
+                this.winLine.index = i
+                return
             }
         }
 
         //return diagonal 1
         if(this.board[0][0] !== '' && this.board[0][0] === this.board[1][1] && this.board[1][1] === this.board[2][2]){
-            result.direction = 'd'
-            result.index = 0
-            return result
+            this.winLine.direction = 'd'
+            this.winLine.index = 0
+            return
         }
 
         //return diagonal 2
         if(this.board[0][2] !== '' && this.board[0][2] === this.board[1][1] && this.board[1][1] === this.board[2][0]){
-            result.direction = 'd'
-            result.index = 2
-            return result
+            this.winLine.direction = 'd'
+            this.winLine.index = 2
+            return
         }
     }
 

@@ -120,6 +120,7 @@ grid.flat().forEach(element => {
         
         game.makeMove(row,col,game.RoundTurn)
         game.checkWinner()
+        game.checkWinnerLine()
 
         if(game.checkWinner() !== ''){
 
@@ -137,10 +138,9 @@ grid.flat().forEach(element => {
             scoreTies.innerText = game.draws
 
             //------Make the grid the same color as the winner here-----
-            console.log(game.checkWinnerLine())
-            if (game.checkWinnerLine().direction === 'row'){
+            if (game.winLine.direction === 'row'){
                 for(let i = 0; i < 3; i++){
-                    let element = grid[game.checkWinnerLine().index][i]
+                    let element = grid[game.winLine.index][i]
                     if(game.checkWinner() === 'x'){
                         element.style = 'background-color: var(--light-blue);'
                         element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
@@ -149,9 +149,9 @@ grid.flat().forEach(element => {
                         element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
                     }
                 }
-            } else if(game.checkWinnerLine().direction === 'col'){
+            } else if(game.winLine.direction === 'col'){
                 for(let i = 0; i < 3; i++){
-                    let element = grid[i][game.checkWinnerLine().index]
+                    let element = grid[i][game.winLine.index]
                     if(game.checkWinner() === 'x'){
                         element.style = 'background-color: var(--light-blue);'
                         element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
@@ -160,8 +160,8 @@ grid.flat().forEach(element => {
                         element.innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
                     }
                 }
-            } else if(game.checkWinnerLine().direction === 'd'){
-                if(game.checkWinnerLine().index === 0){
+            } else if(game.winLine.direction === 'd'){
+                if(game.winLine.index === 0){
                     for(let i = 0; i < 3; i++){
                         let element = grid[i][i]
                         if(game.checkWinner() === 'x'){
