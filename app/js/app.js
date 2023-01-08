@@ -108,11 +108,16 @@ grid.flat().forEach(element => {
         }
     })
 
-    //Place the mark when clicked and
+    //====== Automatically place the CPU mark =====
+    
+
+    //====== Place the mark when clicked and ======
     //check for win after every move
     element.addEventListener('click',() => {
         let row = grid.findIndex(row => row.includes(element))
         let col = grid[row].indexOf(element)
+
+        console.log(game.getBestMove(game.board))
 
         if(element.querySelector('.tile__icon--hover-block')){
             grid[row][col].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.RoundTurn}.svg" alt="icon ${game.RoundTurn}">`
@@ -173,24 +178,12 @@ grid.flat().forEach(element => {
                         }
                     }
                 } else {
-                    if(game.checkWinner() === 'x'){
-                        grid[0][2].style = 'background-color: var(--light-blue);'
-                        grid[0][2].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
-                    
-                        grid[1][1].style = 'background-color: var(--light-blue);'
-                        grid[1][1].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
-                    
-                        grid[2][0].style = 'background-color: var(--light-blue);'
-                        grid[2][0].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
-                    } else {
-                        grid[0][2].style = 'background-color: var(--light-yellow);'
-                        grid[0][2].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
-                        
-                        grid[1][1].style = 'background-color: var(--light-yellow);'
-                        grid[1][1].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
-                        
-                        grid[2][0].style = 'background-color: var(--light-yellow);'
-                        grid[2][0].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`
+                    let color = game.checkWinner() === 'x' ? 'var(--light-blue)' : 'var(--light-yellow)';
+                    let icon = `<img class="tile__icon" src="/assets/icon-${game.checkWinner()}-dark.svg" alt="icon ${game.checkWinner()}">`;
+
+                    for (let i = 0; i < grid.length; i++) {
+                        grid[i][2 - i].style = `background-color: ${color}`;
+                        grid[i][2 - i].innerHTML = icon;
                     }
                 }
             }
