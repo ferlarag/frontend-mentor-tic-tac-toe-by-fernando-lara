@@ -46,9 +46,53 @@ pickMarkBtn.addEventListener('click', () => {
         pickIcon.src = '/assets/icon-x-dark.svg'
     }
 })
+newGameSolo.addEventListener('click', () => {
+    //change to the GAME window
+    document.querySelector('.start').style = 'display: none;'
+    document.querySelector('.game').style = 'display: flex;'
+
+    //make the turn mark start with x
+    document.querySelector('.game__menu--turn-icon').src = '/assets/icon-x-grey.svg'
+
+    //Get a new clean game
+    game.clean()
+    game.multiplayer = false
+    if(pickContainer.classList.contains('pick__btn-container--front-clicked')){
+        game.p1.mark = 'o'
+        game.p2.mark = 'x'
+    }
+
+    //Make sure the board and score are visually reseted
+    grid.flat().forEach(element => {
+        element.style = 'background-color: var(--semi-dark-navy);'
+        element.innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-x-outline.svg" alt="Mark icon">`
+    })
+
+    if(!game.multiplayer && game.p2.mark === 'x'){
+        let mark = game.getBestMove()
+        game.makeCPUMove()
+        grid[mark.i][mark.j].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.p2.mark}.svg" alt="icon ${game.p2.mark}">`
+    }
+
+    p1ScoreParagraph.innerText = `${game.p1.mark} (P1)`
+    playerScorePoints.innerText = game.p1.score
+    p2ScoreParagraph.innerText = `${game.p2.mark} (CPU)`
+    cpuScorePoints.innerText = game.p2.score
+    scoreTies.innerText = game.draws
+
+    //change the marks 
+    if(game.p1.mark === 'x'){
+        p1Score.style = 'background-color: var(--light-blue);'
+        p2Score.style = 'background-color: var(--light-yellow);'
+    } else if(game.p1.mark === 'o'){
+        p1Score.style = 'background-color: var(--light-yellow);'
+        p2Score.style = 'background-color: var(--light-blue);'
+    }
+})
 
 //Multiplayer Mode
 newGameMulti.addEventListener('click', ()=>{
+
     //change to the GAME window
     document.querySelector('.start').style = 'display: none;'
     document.querySelector('.game').style = 'display: flex;'
@@ -58,6 +102,7 @@ newGameMulti.addEventListener('click', ()=>{
     
     //Get a new clean game
     game.clean()
+    game.multiplayer = true
     if(pickContainer.classList.contains('pick__btn-container--front-clicked')){
         game.p1.mark = 'o'
         game.p2.mark = 'x'
@@ -95,7 +140,11 @@ grid.flat().forEach(element => {
         let col = grid[row].indexOf(element)
 
         if(!element.querySelector('.tile__icon')){
-            grid[row][col].innerHTML = `<img class="tile__icon--hover-block" src="/assets/icon-${game.RoundTurn}-outline.svg" alt="Mark icon">`
+            if(!game.multiplayer){
+                grid[row][col].innerHTML = `<img class="tile__icon--hover-block" src="/assets/icon-${game.p1.mark}-outline.svg" alt="Mark icon">`
+            } else {
+                grid[row][col].innerHTML = `<img class="tile__icon--hover-block" src="/assets/icon-${game.RoundTurn}-outline.svg" alt="Mark icon">`
+            }
         }
     })
 
@@ -104,28 +153,42 @@ grid.flat().forEach(element => {
         let col = grid[row].indexOf(element)
 
         if(!element.querySelector('.tile__icon')){
-            grid[row][col].innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-${game.RoundTurn}-outline.svg" alt="Mark icon">`
+            if(!game.multiplayer){
+                grid[row][col].innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-${game.p1.mark}-outline.svg" alt="Mark icon">`
+            } else {
+                grid[row][col].innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-${game.RoundTurn}-outline.svg" alt="Mark icon">`
+            }
         }
     })
-
-    //====== Automatically place the CPU mark =====
     
-
     //====== Place the mark when clicked and ======
     //check for win after every move
     element.addEventListener('click',() => {
         let row = grid.findIndex(row => row.includes(element))
         let col = grid[row].indexOf(element)
 
-        console.log(game.getBestMove(game.board))
-
         if(element.querySelector('.tile__icon--hover-block')){
-            grid[row][col].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.RoundTurn}.svg" alt="icon ${game.RoundTurn}">`
+            if(!game.multiplayer){
+                grid[row][col].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.p1.mark}.svg" alt="icon ${game.p1.mark}">`
+            } else {
+                grid[row][col].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.RoundTurn}.svg" alt="icon ${game.RoundTurn}">`
+            }
         }
-        
-        game.makeMove(row,col,game.RoundTurn)
+
+        if(!game.multiplayer){
+            game.makeMove(row,col,game.p1.mark)
+        } else {
+            game.makeMove(row,col,game.RoundTurn)
+        }
         game.checkWinner()
         game.checkWinnerLine()
+
+        //Make CPU move
+        if(!game.multiplayer){
+            let mark = game.getBestMove()
+            game.makeCPUMove()
+            grid[mark.i][mark.j].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.p2.mark}.svg" alt="icon ${game.p2.mark}">`
+        }
 
         if(game.checkWinner() !== ''){
 
@@ -209,6 +272,8 @@ grid.flat().forEach(element => {
         }
 
         document.querySelector('.game__menu--turn-icon').src =`/assets/icon-${game.RoundTurn}-grey.svg`
+
+        console.log(game.board)
     })
 })
 

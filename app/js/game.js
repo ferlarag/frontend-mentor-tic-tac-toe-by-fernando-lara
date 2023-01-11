@@ -42,6 +42,11 @@ export default class Game {
         this.changeRoundTurnMarks()
     }
 
+    makeCPUMove(){
+      let mark = this.getBestMove()
+      this.board[mark.i][mark.j] = this.p2.mark
+    }
+
     checkWinner(){
         let result = ''
 
@@ -170,122 +175,125 @@ export default class Game {
             ['','','']
         ]
     }
-
+    
     // ======== Minimax Algorithm for playing against the cpu ==============
-    minimax(board, depth, isMaximizing){
-        // The minimax function will return the best score for the current player
-        // (either 1 for win, 0 for draw, or -1 for loss)
-        const result = this.checkWin()
-        if (result !== '') {
-            return result;
+    
+    //will return an object ex: { i:0, j:0 }
+    getBestMove() {
+      // The outer function will return the best move for the CPU
+      let bestScore = -Infinity;
+      let bestMove;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          // Skip occupied spaces
+          if (this.board[i][j] !== '') {
+            continue;
+          }
+          this.board[i][j] = this.p2.mark;
+          const score = this.minimax(0, false);
+          this.board[i][j] = '';
+          if (score > bestScore) {
+            bestScore = score;
+            bestMove = { i, j };
+          }
         }
-        if (isMaximizing) {
-            let bestScore = -Infinity;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                // Skip occupied spaces
-                    if (board[i][j] !== '') {
-                        continue;
-                    }
-                    board[i][j] = 'o';
-                    const score = this.minimax(board, depth + 1, false);
-                    board[i][j] = '';
-                    bestScore = Math.max(score, bestScore);
-                }
-            }
-            return bestScore;
-        } else {
-            let bestScore = Infinity;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                // Skip occupied spaces
-                    if (board[i][j] !== '') {
-                        continue;
-                    }
-                    board[i][j] = 'x';
-                    const score = this.minimax(board, depth + 1, true)
-                    board[i][j] = '';
-                    bestScore = Math.min(score, bestScore)
-                }
-            }
-            return bestScore;
-        }
+      }
+      return bestMove;
     }
 
-    getBestMove(board) {
-        // The outer function will return the best move for the CPU
+    minimax(depth, isMaximizing) {
+      const result = this.checkWin()
+      if (result !== null) {
+        return result
+      }
+      if (isMaximizing) {
         let bestScore = -Infinity;
-        let bestMove;
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++) {
             // Skip occupied spaces
-            if (board[i][j] !== '') {
+            if (this.board[i][j] !== '') {
               continue;
             }
-            board[i][j] = 'o';
-            const score = this.minimax(board, 0, false);
-            board[i][j] = '';
-            if (score > bestScore) {
-              bestScore = score;
-              bestMove = { i, j };
-            }
+            this.board[i][j] = this.p2.mark;
+            const score = this.minimax(depth + 1, false);
+            this.board[i][j] = '';
+            bestScore = Math.max(score, bestScore);
           }
         }
-        return bestMove;
-    }
-
-    checkWin(board){
-
-        // Check rows
+        return bestScore;
+      } else {
+        let bestScore = Infinity;
         for (let i = 0; i < 3; i++) {
-          if (board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
-            if (board[i][0] === 'x') {
-              return 1;
-            } else if (board[i][0] === 'o') {
-              return -1;
+          for (let j = 0; j < 3; j++) {
+            // Skip occupied spaces
+            if (this.board[i][j] !== '') {
+              continue;
             }
+            this.board[i][j] = this.p1.mark;
+            const score = this.minimax(depth + 1, true);
+            this.board[i][j] = '';
+            bestScore = Math.min(score, bestScore);
           }
         }
-        // Check columns
-        for (let i = 0; i < 3; i++) {
-            if (board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
-                if (board[0][i] === 'x') {
-                  return 1;
-                } else if (board[0][i] === 'o') {
-                  return -1;
-                }
-              }
-        }
+        return bestScore;
+      }
+  }
+  
+  
 
-        // Check diagonals
-        if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
-            if (board[0][0] === 'o') {
-            return 1
-            } else if (board[0][0] === 'x') {
-            return -1
-            }
+
+    //if p1 wins returns -1, 1 if it loses and 0 when it draws
+    checkWin() {
+      // Check rows
+      for (let i = 0; i < 3; i++) {
+        if (this.board[i][0] === this.board[i][1] && this.board[i][1] === this.board[i][2]) {
+          if (this.board[i][0] === this.p2.mark) {
+            return 1;
+          } else if (this.board[i][0] === this.p1.mark) {
+            return -1;
+          }
         }
-        if (board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
-            if (board[2][0] === 'o') {
-            return 1
-            } else if (board[2][0] === 'x') {
-            return -1
-            }
+      }
+      // Check columns
+      for (let i = 0; i < 3; i++) {
+        if (this.board[0][i] === this.board[1][i] && this.board[1][i] === this.board[2][i]) {
+          if (this.board[0][i] === this.p2.mark) {
+            return 1;
+          } else if (this.board[0][i] === this.p1.mark) {
+            return -1;
+          }
         }
-        // Check for draw
-        let emptySpaces = 0
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-            if (board[i][j] === '') {
-                emptySpaces++
-            }
-            }
+      }
+      // Check diagonals
+      if (this.board[0][0] === this.board[1][1] && this.board[1][1] === this.board[2][2]) {
+        if (this.board[0][0] === this.p2.mark) {
+          return 1;
+        } else if (this.board[0][0] === this.p1.mark) {
+          return -1;
         }
-        if (emptySpaces === 0) {
-            return 0
+      }
+      if (this.board[2][0] === this.board[1][1] && this.board[1][1] === this.board[0][2]) {
+        if (this.board[2][0] === this.p2.mark) {
+          return 1;
+        } else if (this.board[2][0] === this.p1.mark) {
+          return -1;
         }
-        return null
-    }
+      }
+      // check draw
+      let draw = true;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (this.board[i][j] === '') {
+            draw = false;
+          }
+        }
+      }
+      if (draw) {
+        return 0;
+      } else {
+        return null;
+      }
+    }  
 }
 
 
