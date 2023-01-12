@@ -168,11 +168,11 @@ newGameMulti.addEventListener('click', ()=>{
 //make the game object interact with the HTML board
 grid.flat().forEach(element => {
 
+    let row = grid.findIndex(row => row.includes(element))
+    let col = grid[row].indexOf(element)
+
     //Make the mark outline appear when mouse hovers over the cell
     element.addEventListener('mouseenter', () => {
-        let row = grid.findIndex(row => row.includes(element))
-        let col = grid[row].indexOf(element)
-
         if(!element.querySelector('.tile__icon')){
             if(!game.multiplayer){
                 grid[row][col].innerHTML = `<img class="tile__icon--hover-block" src="/assets/icon-${game.p1.mark}-outline.svg" alt="Mark icon">`
@@ -183,9 +183,6 @@ grid.flat().forEach(element => {
     })
 
     element.addEventListener('mouseleave', () => {
-        let row = grid.findIndex(row => row.includes(element))
-        let col = grid[row].indexOf(element)
-
         if(!element.querySelector('.tile__icon')){
             if(!game.multiplayer){
                 grid[row][col].innerHTML = `<img class="tile__icon--hover-hidden" src="/assets/icon-${game.p1.mark}-outline.svg" alt="Mark icon">`
@@ -195,11 +192,9 @@ grid.flat().forEach(element => {
         }
     })
     
-    //====== Place the mark when clicked and ======
-    //check for win after every move
+    //====== Place the mark when clicked and its empty======
+    
     element.addEventListener('click',() => {
-        let row = grid.findIndex(row => row.includes(element))
-        let col = grid[row].indexOf(element)
 
         if(element.querySelector('.tile__icon--hover-block')){
             if(!game.multiplayer){
@@ -214,16 +209,17 @@ grid.flat().forEach(element => {
         } else {
             game.makeMove(row,col,game.RoundTurn)
         }
-        game.checkWinner()
-        game.checkWinnerLine()
-
+        
         //Make CPU move
-        //ONLY IF THE GAME IS NOT OVER
+        //ONLY IF THE GAME IS NOT OVER && AND THE USER GOT
         if(!game.multiplayer && game.board.flat().includes('')){
             let mark = game.getBestMove()
             game.makeCPUMove()
             grid[mark.i][mark.j].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.p2.mark}.svg" alt="icon ${game.p2.mark}">`
         }
+
+        game.checkWinner()
+        game.checkWinnerLine()
 
         if(game.checkWinner() !== ''){
 
