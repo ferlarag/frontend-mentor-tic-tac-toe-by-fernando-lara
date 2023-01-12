@@ -56,6 +56,7 @@ newGameSolo.addEventListener('click', () => {
 
     //Get a new clean game
     game.clean()
+
     game.multiplayer = false
     if(pickContainer.classList.contains('pick__btn-container--front-clicked')){
         game.p1.mark = 'o'
@@ -184,7 +185,8 @@ grid.flat().forEach(element => {
         game.checkWinnerLine()
 
         //Make CPU move
-        if(!game.multiplayer){
+        //ONLY IF THE GAME IS NOT OVER
+        if(!game.multiplayer && game.board.flat().includes('')){
             let mark = game.getBestMove()
             game.makeCPUMove()
             grid[mark.i][mark.j].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.p2.mark}.svg" alt="icon ${game.p2.mark}">`
@@ -303,6 +305,12 @@ nextRoundBtn.addEventListener('click',() => {
     }
 
     game.resetBoard()
+
+    if(!game.multiplayer && game.board.flat().includes('') && game.p2.mark === 'x'){
+        let mark = game.getBestMove()
+        game.makeCPUMove()
+        grid[mark.i][mark.j].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.p2.mark}.svg" alt="icon ${game.p2.mark}">`
+    }
 })
 
 //quit button
