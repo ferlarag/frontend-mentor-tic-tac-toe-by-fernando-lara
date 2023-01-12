@@ -30,11 +30,44 @@ const cpuScorePoints =  document.querySelector('.score__cpu--number')
 
 let game = new Game
 
+//Check if theres a games has started
+if(localStorage.getItem('gameState') !== null){
+    game.reloadGame()
+
+    //change to the GAME window
+    document.querySelector('.start').style = 'display: none;'
+    document.querySelector('.game').style = 'display: flex;'
+
+    //change the turn mark to match the players turn
+    document.querySelector('.game__menu--turn-icon').src = `/assets/icon-${game.RoundTurn}-grey.svg`
+
+    p1ScoreParagraph.innerText = `${game.p1.mark} (P1)`
+    playerScorePoints.innerText = game.p1.score
+    if(!game.multiplayer){
+        p2ScoreParagraph.innerText = `${game.p2.mark} (CPU)`
+    } else {
+        p2ScoreParagraph.innerText = `${game.p2.mark} (P2)`
+    }
+    
+    cpuScorePoints.innerText = game.p2.score
+    scoreTies.innerText = game.draws
+
+    //change the marks 
+    if(game.p1.mark === 'x'){
+        p1Score.style = 'background-color: var(--light-blue);'
+        p2Score.style = 'background-color: var(--light-yellow);'
+    } else if(game.p1.mark === 'o'){
+        p1Score.style = 'background-color: var(--light-yellow);'
+        p2Score.style = 'background-color: var(--light-blue);'
+    }
+}
+
 let grid = [
     [a,b,c],
     [d,e,f],
     [g,h,i]
 ]
+
 
 //choose the P1 mark button
 pickMarkBtn.addEventListener('click', () => {
@@ -274,8 +307,6 @@ grid.flat().forEach(element => {
         }
 
         document.querySelector('.game__menu--turn-icon').src =`/assets/icon-${game.RoundTurn}-grey.svg`
-
-        console.log(game.board)
     })
 })
 
@@ -311,6 +342,8 @@ nextRoundBtn.addEventListener('click',() => {
         game.makeCPUMove()
         grid[mark.i][mark.j].innerHTML = `<img class="tile__icon" src="/assets/icon-${game.p2.mark}.svg" alt="icon ${game.p2.mark}">`
     }
+
+    game.saveGame()
 })
 
 //quit button
